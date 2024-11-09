@@ -1,10 +1,29 @@
 .footer {
   margin: 100px 200px 20px 200px;
   font-family: 'Courier New', Courier, monospace;
+  @media screen and (max-width: 1024px) {
+ margin: 10px;
+    
+
+ 
+}
 
   .top {
     display: flex;
     gap: 50px;
+    @media screen and (max-width: 1024px) {
+     flex-direction:column ;
+      gap: 30px;
+}
+  .toplist{
+    display: flex;
+    flex-wrap: wrap;
+    @media screen and (max-width: 786px) {
+      flex-direction:column ;
+       gap: 30px;
+ }
+
+  }
 
     .item {
       flex: 1;
@@ -13,15 +32,42 @@
       gap: 10px;
       text-align: justify;
       font-size: 14px;
+      @media screen and (max-width: 1024px) {
+        font-size: 14px;
+        
+    
+     
+    }
 
-      h1{
+      .infotext{
+     line-height: 1.5;
+     text-align: left;  
+      }
+
+      .icons {
+        display: flex;
+        color: gray;
+        gap: 10px
+      
+      }
+
+      p{
+      padding: 0;
         font-size: 18px;
         font-weight: 500;
         color: #555;
+
+        .fg{
+          color: #A1D763;
+          font-weight: 600;
+        }
       }
 
-      span{
+
+      a{
         color: gray;
+        text-decoration: none;
+        text-align: left;
       }
     }
   }
@@ -36,7 +82,7 @@
       align-items: center;
 
       .logo{
-        color: #cdbaa3 ;
+        color: #A1D763 ;
         font-weight: bold;
         font-size: 24px;
         font-family: customfont;

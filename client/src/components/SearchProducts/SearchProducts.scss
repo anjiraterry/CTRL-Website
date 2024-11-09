@@ -1,0 +1,52 @@
+
+.searchproduct{
+  position:fixed;
+  top:120px;
+  left:0;
+  display:flex;
+  width: 100%;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.close-cont{
+ padding-right: 20px;
+  border-top:#A1D763 solid 5px;
+  background: white;
+  
+ 
+
+  .close-modal{
+   background:white;
+   display: inline;
+  color: black;
+  font-size:xx-large;
+  cursor: pointer;
+  justify-content: end;
+ 
+
+
+}
+
+}
+
+.list{
+  
+  top:0;
+  left:0;
+  background: white;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 45px;
+
+  max-height: 70vh; 
+  overflow-y: auto; 
+ 
+  gap: 20px;
+}
+
+.search input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+}

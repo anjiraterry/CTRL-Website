@@ -1,0 +1,115 @@
+.slider{
+  height: calc(100vh - 80px);
+  position: relative;
+  overflow: hidden;
+ 
+ 
+  .container{
+  
+    
+   
+    transition: all 1s ease;
+   
+    img{
+      width: 100vw;
+      height: 100%;
+      object-fit: cover;
+    
+    @media screen and (max-width: 768px) {
+      
+      width: 50%;
+      height:50%;
+    
+     
+    }
+    }
+  }
+
+  .introText{
+    font-family: customfont;
+    font-size: 20px;
+   height:  50%;
+   padding: 20px;
+   display: flex;
+   align-items: center;
+   
+ 
+    
+    span{
+      color: #A1D763;
+    }
+    p{
+      font-family: 'Courier New', Courier, monospace;
+      color: #777;
+    }
+
+  }
+
+  .icons{
+   
+
+    @media screen and (max-width: 430px) {
+      display: none;
+   
+  }
+  @media screen and (max-width: 768px) {
+    
+      display: none;
+  
+   
+  }
+
+  
+  }
+}
+
+ .prev{
+   position:absolute;
+  top:50%;
+  right: 0;
+  width: 50px;
+      height: 50px;
+      border: 1px solid #999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background:#fff;
+
+ 
+  @media screen and (max-width: 768px) {
+    
+      display: none;
+  
+   
+  }
+  }
+  .prev:hover{
+      background-color: #A1D763;
+    }
+
+ .next{
+   position:absolute;
+  top:50%;
+
+  left: 0;
+  width: 50px;
+      height: 50px;
+      border: 1px solid #999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+       background:#fff;
+
+ 
+  @media screen and (max-width: 768px) {
+    
+      display: none;
+  
+   
+  }
+ }
+ .next:hover{
+  background-color: #A1D763;
+}

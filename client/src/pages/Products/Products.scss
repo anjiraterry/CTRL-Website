@@ -1,7 +1,14 @@
 .products {
-  padding: 30px 50px;
+  padding: 20px 40px;
   display: flex;
+  align-items: center;
   flex-direction: column;
+  @media screen and (max-width: 768px) {
+      
+    padding: 0px 
+  
+   
+  }
 
   .head {
    letter-spacing: 2px;
@@ -14,34 +21,22 @@
    margin: auto;
  }
 
-  .left {
-    flex: 1;
-    position: sticky;
-    height: 100%;
-    top: 50px;
+  .items {
+    display: flex;
+   flex-wrap: wrap;
+   align-items: center;
+   justify-content: center;
 
-    .filterItem{
-      margin-bottom: 30px;
-
+    @media screen and (max-width: 768px) {
+      
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
     
-
-      .inputItem{
-        margin-bottom: 10px;
-        label{
-          margin-left: 10px;
-        }
-      }
+     
     }
-  }
-  
-  .right {
-    flex: 3;
 
-    .catImg{
-      width: 100%;
-      height: 300px;
-      object-fit:  cover;
-      margin-bottom: 50px;
-    }
+   
   }
 }

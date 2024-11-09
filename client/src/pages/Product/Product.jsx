@@ -21,6 +21,10 @@ const Product = () => {
 
 
 
+ 
+
+
+
   return (
     <div className="product">
  
@@ -52,7 +56,7 @@ const Product = () => {
           </div>
           <div className="right">
             <h1>{product?.title} </h1>
-            <span className="price">${product?.price} </span>
+            <span className="price">₦{product?.price} </span>
             <p>{data?.attributes?.desc}</p>
             <div className="quantity">
               <button
@@ -63,7 +67,7 @@ const Product = () => {
                 -
               </button>
               {quantity}
-              <button onClick={() => setQuantity((prev) => prev + 1)}>+</button>
+              <button onClick={() => setQuantity((prev) => (prev >= product?.stock ?  product?.stock :  prev + 1))}>+</button>
             </div>
             <button
               className="add"

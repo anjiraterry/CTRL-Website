@@ -2,10 +2,10 @@ import React from "react";
 import "./Card.scss";
 import { Link } from "react-router-dom";
 
-const Card = ({item}) => {
+const Card = ({item , handleClick}) => {
  
   return (
-    <Link className="link" to={`/product/${item?.id}`}  state={{ product: item }} >
+    <Link className="link" to={`/product/${item?.id}`}  state={{ product: item }} onClick={handleClick} >
       <div className="card">
         <div className="image">
           <img src={item.img}/>

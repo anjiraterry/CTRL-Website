@@ -15,13 +15,7 @@ const Contact = () => {
           <input type="text" placeholder="Enter your e-mail..." />
           <button>JOIN US</button>
         </div>
-        <div className="icons">
-          <FacebookIcon />
-          <InstagramIcon />
-          <TwitterIcon />
-          <GoogleIcon />
-          <PinterestIcon />
-        </div>
+  
       </div>
     </div>
   );

@@ -1,31 +1,76 @@
 import React from "react";
 import Card from "../Card/Card";
 import "./FeaturedProducts.scss";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 import useFetch from "../../hooks/useFetch";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect } from "react";
+const items = require("../../pages/data/items.js")
 
 const FeaturedProducts = ({ type }) => {
-  const { data, loading, error } = useFetch(
-    `/products?populate=*&[filters][type][$eq]=${type}`
-  );
+  const data = items.item
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  useEffect(() => {
+    const savedPosition = location.state && location.state.scrollPosition;
+    if (savedPosition) {
+      window.scrollTo(0, savedPosition);
+    }
+  }, [location]);
+
+  const handleClick = () => {
+    // Save the current scroll position and navigate
+    const scrollPosition = window.scrollY;
+    navigate(location.pathname, { replace: true, state: { scrollPosition } });
+    window.scrollTo(0, 0); // Optional, scrolls to the top when clicking
+  };
+
+  const flattenedItems = data.flatMap((itemsArray) => itemsArray.slice(0, 2));
+
+  console.log(flattenedItems)
+
+  const sliderSettings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+  };
+  
   return (
     <div className="featuredProducts">
       <div className="top">
-        <h1>{type} products</h1>
+        <h1 >{type} products</h1>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum
-          suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan
-          lacus vel facilisis labore et dolore magna aliqua. Quis ipsum
-          suspendisse ultrices gravida. Risus commodo viverra maecenas.
+        Welcome to pr3ssctrl—your go-to for accessories that reboot your look.
+        Whether you're leveling up your everyday style or upgrading for a night out, we've got the pieces that spark confidence.
+        At pr3ssctrl, it's not just about looking good, it's about hitting refresh on how you feel. Gear up. Look good. Feel unstoppable.
         </p>
       </div>
-      <div className="bottom">
-        {error
-          ? console.log(error)
-          : loading
-          ? "loading"
-          : data?.map((item) => <Card item={item} key={item.id} />)}
+      <div className="bottom"  >
+      {data.map((itemsArray) =>
+          itemsArray.slice(0, 2).map((item) => (
+            <Card item={item} key={item.id} handleClick={handleClick}/>
+          ))
+        )}
+        
+       
+        
+      </div>
+      <div className="slider-layout">
+      <Slider {...sliderSettings}>
+          {flattenedItems.map((item)  => (
+           <div>
+              <Card item={item} key={item.id} handleClick={handleClick} />
+              </div>
+      
+          ))}  </Slider>
+        
       </div>
     </div>
   );

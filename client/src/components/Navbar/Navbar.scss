@@ -29,7 +29,16 @@
   
     .navstart{
       display: flex;
-      gap: 50px
+      justify-content: space-between;
+      gap: 50px;
+      
+      @media screen and (max-width:1275px) {
+      
+        display: block;
+    
+     
+    }
+   
     }
 
     .head {
@@ -37,12 +46,31 @@
       font-size: 30px;
       letter-spacing: 2px;
       font-family: customfont;
+     
+    a{
+      display: block;
+    
+    @media screen and (max-width:1275px) {
+      
+        display: none;
+    
+     
+    }
+    }
     }
 
     .left {
       display: flex;
       align-items: center;
       gap: 25px;
+
+     
+    @media screen and (max-width:1275px) {
+      
+        display: none;
+    
+     
+    }
     }
     .center {
       position: absolute;
@@ -60,51 +88,154 @@
         color: #777;
         cursor: pointer;
 
+      
+       @media screen and (max-width:1275px) {
+        
+          display: none;
+      
+       
+        }
+
         .search{
           display: flex;
           align-items: center;
-          border: 1px solid #999;
+          border:  solid #999;
           padding : 5px 5px;
 
           input{
+            border: none;
+            outline: none;
             width: 300px;
             height: 20px;
            
           }
         }
 
-        a{
+      
+  
+    
+      
+      }
+      .iconstwo{
+        display: flex;
+        align-items: center;
+        color: #777;
+        gap:15px;
+        cursor: pointer;
+        
+        .signup{
           padding: 8px 12px;
           border: 1px solid #999;
+          color: black;
+          cursor: pointer;
+        }
+        .signup:hover{
+          background-color: #A1D763;
+         
+        }
+      .cartIcon {
+        position: relative;
+       
+
+        span {
+          font-size: 12px;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background-color: #A1D763;
+          color: white;
+          font-weight: bolder;
+          position: absolute;
+          right: -10px;
+          top: -10px;
           display: flex;
           align-items: center;
           justify-content: center;
-          cursor: pointer;
         }
-        a:hover{
-          background-color: rgb(221, 221, 221)
-        }
-  
+       }
+     }
+    }
+    .hamburger-icon {
+      display: none;
+     
+      @media screen and (max-width:1275px) {
+        position:relative ;
+      top:0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center; 
+      width: 30px;
+      height: 30px;
+       gap: 8px;
+      z-index: 1300;
+      cursor: pointer;
+      transition: all 0.4s ease; 
+      
     
-        .cartIcon {
-          position: relative;
+     
+      }
 
-          span {
-            font-size: 12px;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background-color: #cdbaa3;
-            color: white;
-            position: absolute;
-            right: -10px;
-            top: -10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
+    
+      .line {
+        width: 100%;
+        height: 3px;
+        background-color:#777;
+        transition: all 0.4s ease;
+        &.menuOpen {
+         position: absolute;
+         background-color:white;
+        }
+      
+      }
+    
+      .line1 {
+        transform-origin: center;
+        &.menuOpen {
+          transform: rotate(45deg);
+        }
+      }
+    
+      .line2 {
+        transform-origin: center;
+        &.menuOpen {
+          transform: rotate(-45deg);
         }
       }
     }
+    
+    
+    .full-page-menu {
+      position: fixed;
+      top: 0;
+      left: -105vw;
+      width: 102vw;
+      height: 102vh;
+     background-color: #A1D763;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-family: customfont;
+      align-items: center;
+      transition: left 0.4s ease-in-out;
+      z-index: 1000;
+    
+      &.menuOpen {
+        left: 0;
+      }
+    
+      .menu-item {
+        color: white;
+        font-size: 2rem;
+        text-align: center;
+        margin: 20px 0;
+        cursor: pointer;
+        &:hover {
+          color: gray;
+        }
+      }
+    }
+    
   }
+
+  
 }

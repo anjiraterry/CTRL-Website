@@ -1,19 +1,49 @@
+import { useState } from "react";
 import { Children } from "react";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet, useLocation } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home/Home";
 import Product from "./pages/Product/Product";
 import Products from "./pages/Products/Products";
 import "./app.scss"
-import Signup from "./pages/Signup/Signup";
+import Signup from "./components/Signup/Signup";
+import SearchProducts from "./components/SearchProducts/SearchProducts";
+import Admin from "./pages/Admin/Admin";
+import Faq from "./pages/Faq/Faq";
+import Onboarding from "./pages/Onboarding/Onboarding";
+
 
 const Layout = () => {
+  const [isSignupOpen, setIsSignupOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const location = useLocation();
+  const isOnboardingPage = location.pathname === "/onboarding";
+
+ 
+
+  const handleSearchChange = (value) => {
+    setSearchTerm(value);
+    setIsModalOpen(!!value); // Open modal if there's a search term
+  };
+
+
   return (
     <div className="app">
-      <Navbar />
+      {!isOnboardingPage && (
+        <Navbar 
+          setIsSignupOpen={setIsSignupOpen} 
+          isSignupOpen={isSignupOpen} 
+          searchTerm={searchTerm} 
+          onSearchChange={handleSearchChange} 
+        />
+      )}
       <Outlet />
-      <Footer />
+      {!isOnboardingPage && <Footer />}
+      {isSignupOpen && <Signup setIsSignupOpen={setIsSignupOpen}   />}
+      <SearchProducts searchTerm={searchTerm} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
     </div>
   );
 };
@@ -28,8 +58,12 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/signup",
-        element: <Signup/>,
+        path: "/admin",
+        element: <Admin/>,
+      },
+      {
+        path: "/faq",
+        element: <Faq/>,
       },
       {
         path: "/products/:id",
@@ -38,6 +72,10 @@ const router = createBrowserRouter([
       {
         path: "/product/:id",
         element: <Product />,
+      },
+      {
+        path: "/onboarding",
+        element: <Onboarding/>,
       },
     ],
   },
