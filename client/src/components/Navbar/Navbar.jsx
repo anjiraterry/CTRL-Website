@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 
 const Navbar = ({ isSignupOpen, setIsSignupOpen, searchTerm, onSearchChange  }) => {
   const [open,setOpen] = useState(false)
-
+  const token = localStorage.getItem('token');
   const products = useSelector((state) => state.cart.products);
 
   const handleInputChange = (e) => {
@@ -95,10 +95,10 @@ const Navbar = ({ isSignupOpen, setIsSignupOpen, searchTerm, onSearchChange  }) 
             
           </div>
           <div className="iconstwo">
-          <div className="signup link " to="signup" onClick={()=> setIsSignupOpen(!isSignupOpen)}> Signup {/*<PersonOutlineOutlinedIcon/> */}</div> 
+            { !token  ?   <div className="signup link " to="signup" onClick={()=> setIsSignupOpen(!isSignupOpen)}> Signup </div> : <PersonOutlineOutlinedIcon/> }
           <div className="cartIcon" onClick={()=>setOpen(!open)}>
               <ShoppingCartOutlinedIcon/>
-              <span>{products.length}</span>
+              { token  ?   <span>{products.length}</span> : ""}
             </div>
             </div>
         </div>

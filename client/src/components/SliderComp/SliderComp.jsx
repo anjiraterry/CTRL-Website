@@ -6,7 +6,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import slring from "../../img/slring2.jpg"
-import slgrillz from "../../img/slgrillz2.jpg"
+import slgrillz from "../../img/grillz/slgrillz2.jpg"
 import slshades from "../../img/slshades.jpg"
 import slering from "../../img/slering.jpg"
 import slbelt from "../../img/slbelt1.jpg"
@@ -14,18 +14,18 @@ import slchain from "../../img/slshades2.jpg"
 
 const SliderComp = () => {
 
-  const CustomPrevArrow = ({ onClick }) => (
+  const CustomNextArrow = ({ onClick }) => (
     <div
-      className=" prev i "
+      className="next "
       onClick={onClick}
     >
       <EastOutlinedIcon  />
     </div>
   );
 
-  const CustomNextArrow = ({ onClick }) => (
+  const CustomPrevArrow = ({ onClick }) => (
     <div
-      className="next "
+      className="prev "
       onClick={onClick}
     >
       <WestOutlinedIcon />

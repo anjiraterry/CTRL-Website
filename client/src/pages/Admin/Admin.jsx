@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import Orders from '../../components/Admin/Orders/Orders';
-import Insights from '../../components/Admin/Insights/Insights';
-import Stock from '../../components/Admin/Stock/Stock';
-import Transactions from '../../components/Admin/Transactions/Transactions';
-import Users from '../../components/Admin/Users/Users';
+import Orders from '../../components/Dashboard/Orders/Orders';
+import Insights from '../../components/Dashboard/Insights/Insights';
+import Stock from '../../components/Dashboard/Stock/Stock';
+import Transactions from '../../components/Dashboard/Transactions/Transactions';
+import Users from '../../components/Dashboard/Users/Users';
 import "./Admin.scss"
 
 const Admin = () => {

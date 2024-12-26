@@ -38,7 +38,7 @@ const handleClick= () => {
      
     </div>
     <div className="col-steeze">
-    <Link to="/products/steeze" className="link" id="steeze" onClick={handleClick}>
+    <Link to="/products/steeze" className="link" state={{ id: 2 , text:'clothes' }}  onClick={handleClick}>
       <div className="row"  style={{ backgroundImage: `url(/img/steeze.jpg)` }}>
         {" "}
       
@@ -55,7 +55,7 @@ const handleClick= () => {
     <div className="col-l">
       <div className="row-l">
         
-        <Link to="/products/chains" className="link" onClick={handleClick}>
+        <Link to="/products/chains" className="link" state={{ id: 3 , text:'chains' }} onClick={handleClick}>
           <div className="row"  style={{ backgroundImage: `url(/img/chain.jpeg)` }} >
         
             <button>
@@ -67,7 +67,7 @@ const handleClick= () => {
           </Link>
         
       
-        <Link to="/products/shades" state={{id: 2 , text:'shades'}}  className="link"onClick={handleClick}>
+        <Link to="/products/shades" state={{id: 4 , text:'shades'}}  className="link"onClick={handleClick}>
           <div className="row"  style={{ backgroundImage: `url(/img/shades.jpg)` }}>
         
     
@@ -79,7 +79,7 @@ const handleClick= () => {
           </div>
           </Link>
       </div>
-      <Link to="/products/1" className="link">
+      <Link to="/products/1"  state={{ id: 2 , text:'new arrival' }}  className="link">
       <div className="row" style={{ backgroundImage: `url(/img/na.jpg` }}>
      
         <button>

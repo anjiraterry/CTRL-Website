@@ -1,81 +1,88 @@
-import React from "react";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import "./Cart.scss";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import { useSelector } from "react-redux";
-import { removeItem, resetCart } from "../../redux/cartReducer";
-import { makeRequest } from "../../makeRequest";
-import { loadStripe } from "@stripe/stripe-js";
-import useFetch from "../../hooks/useFetch";
-import { useDispatch } from "react-redux";
-import { useParams, useLocation } from "react-router-dom";
+import { useDispatch, useSelector} from "react-redux";
+import useUserProfile from "../../hooks/useUserProfile";
+import useFlutterwavePayment from '../../hooks/useFlutterwavePayment'; 
+import { clearCart, fetchCart, removeCartItem , resetCart } from "../../redux/cartReducer";
 
 const Cart = () => {
-  const products = useSelector((state) => state.cart.products);
- 
-  const { state } = useLocation();
-  const { product } = state || {};
-
+  const { user, isloading, errormsg } = useUserProfile();
+  const token = localStorage.getItem('token');
   const dispatch = useDispatch();
-  
- 
 
-  const totalPrice = () => {
-    let total = 0;
-    products.forEach((item) => {
-      total += item.quantity * parseFloat(item.price.replace(/,/g , ''));
-      
-     
-    });
-    return total.toFixed(2);
  
+  const { products, status } = useSelector((state) => state.cart); 
+
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchCart(token)); 
+    }
+  }, [user, dispatch, token]);
+
+  const removeFromReduxCart= (id) => {
+    dispatch(removeCartItem({ token, id, user }));
   };
-
- 
-
-  const stripePromise = loadStripe(
-    "pk_test_eOTMlr8usx1ctymXqrik0ls700lQCsX2UB"
-  );
-  const handlePayment = async () => {
+  const handleResetCart = async () => {
     try {
-      const stripe = await stripePromise;
-      const res = await makeRequest.post("/orders", {
-        products,
-      });
-      await stripe.redirectToCheckout({
-        sessionId: res.data.stripeSession.id,
-      });
 
+      dispatch(clearCart({ token, userId: user.id }));
+  
+      dispatch(resetCart());
     } catch (err) {
-      console.log(err);
+      console.error('Error resetting cart:', err.message);
     }
   };
+  
+
+  const totalPrice = () => {
+    return products.reduce((total, item) => total + item.quantity * item.price, 0).toFixed(2);
+  };
+
+  const { handlePayment } = useFlutterwavePayment(user, totalPrice(), "CART CHECKOUT");
+
   return (
     <div className="cart">
-      <h1>Products in your cart</h1>
-      {products?.map((item) => (
-        <div className="item" key={item.id}>
-          <img src={item.img} alt="" />
-          <div className="details">
-            <h1>{item.title}</h1>
-            <p>{item.desc?.substring(0, 100)}</p>
-            <div className="price">
-              {item.quantity} x  ₦{item.price}
-            </div>
+      {isloading ? (
+        <div>Loading...</div>
+      ) : errormsg ? (
+        <div><h2>Please Login or Sign Up</h2></div>
+      ) : !user ? (
+        <div></div>
+      ) : (
+        <div>
+          <h1>Products in your cart</h1>
+          {products.length === 0 ? (
+            <p>Your cart is empty</p>
+          ) : (
+            products.map((item) => (
+              <div className="item" key={item.id}>
+                <img src={item.img} alt="" />
+                <div className="details">
+                  <h1>{item.title}</h1>
+                  <p>{item.description?.substring(0, 100)}</p>
+                  <div className="price">
+                    {item.quantity} x ₦{item.price}
+                  </div>
+                </div>
+                <DeleteOutlinedIcon
+                  className="delete"
+                  onClick={() => removeFromReduxCart(item.id)}
+                />
+              </div>
+            ))
+          )}
+          <div className="total">
+            <span>SUBTOTAL</span>
+            <span>₦{totalPrice()}</span>
           </div>
-          <DeleteOutlinedIcon
-            className="delete"
-            onClick={() => dispatch(removeItem(item.id))}
-          />
+          <button onClick={handlePayment}>PROCEED TO CHECKOUT</button>
+          <span className="reset" onClick={() => handleResetCart()}>
+            Reset Cart
+          </span>
         </div>
-      ))}
-      <div className="total">
-        <span>SUBTOTAL</span>
-        <span> ₦{totalPrice()}</span>
-      </div>
-      <button onClick={handlePayment}>PROCEED TO CHECKOUT</button>
-      <span className="reset" onClick={() => dispatch(resetCart())}>
-        Reset Cart
-      </span>
+      )}
     </div>
   );
 };

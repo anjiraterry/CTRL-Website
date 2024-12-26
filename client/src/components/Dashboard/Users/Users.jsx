@@ -1,8 +1,40 @@
 import React from 'react'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 const Users = () => {
+
+  const rows = [
+    { name: 'Product A', category: 'Accessories', price: '$20' },
+    { name: 'Product B', category: 'Jewelry', price: '$50' },
+    { name: 'Product C', category: 'Bags', price: '$35' },
+  ];
+
   return (
-    <div>Users</div>
+    <TableContainer component={Paper}>
+    <Table>
+      <TableHead>
+        <TableRow>
+        <TableCell>Customer Id</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>Email</TableCell>
+            <TableCell>Phone No</TableCell>
+            <TableCell>Gender</TableCell>
+            <TableCell>Address</TableCell>
+            <TableCell>City</TableCell>
+            <TableCell>Birthday</TableCell>  
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rows.map((row, index) => (
+          <TableRow key={index}>
+            <TableCell>{row.name}</TableCell>
+            <TableCell>{row.category}</TableCell>
+            <TableCell>{row.price}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  </TableContainer>
   )
 }
 

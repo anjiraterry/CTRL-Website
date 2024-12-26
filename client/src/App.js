@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, createContext, useContext } from "react";
 import { Children } from "react";
 import { createBrowserRouter, RouterProvider, Outlet, useLocation } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
@@ -12,6 +12,10 @@ import SearchProducts from "./components/SearchProducts/SearchProducts";
 import Admin from "./pages/Admin/Admin";
 import Faq from "./pages/Faq/Faq";
 import Onboarding from "./pages/Onboarding/Onboarding";
+
+const SignupContext = createContext();
+
+export const useSignupContext = () => useContext(SignupContext);
 
 
 const Layout = () => {
@@ -31,20 +35,22 @@ const Layout = () => {
 
 
   return (
+    <SignupContext.Provider value={{ isSignupOpen, setIsSignupOpen }}>
     <div className="app">
       {!isOnboardingPage && (
-        <Navbar 
-          setIsSignupOpen={setIsSignupOpen} 
-          isSignupOpen={isSignupOpen} 
-          searchTerm={searchTerm} 
-          onSearchChange={handleSearchChange} 
+        <Navbar
+          setIsSignupOpen={setIsSignupOpen}
+          isSignupOpen={isSignupOpen}
+          searchTerm={searchTerm}
+          onSearchChange={handleSearchChange}
         />
       )}
       <Outlet />
       {!isOnboardingPage && <Footer />}
-      {isSignupOpen && <Signup setIsSignupOpen={setIsSignupOpen}   />}
-      <SearchProducts searchTerm={searchTerm} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+      {isSignupOpen && <Signup setIsSignupOpen={setIsSignupOpen} />}
+      <SearchProducts searchTerm={searchTerm} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
     </div>
+  </SignupContext.Provider>
   );
 };
 
@@ -71,12 +77,13 @@ const router = createBrowserRouter([
       },
       {
         path: "/product/:id",
-        element: <Product />,
+        element: <Product  />,
       },
       {
         path: "/onboarding",
         element: <Onboarding/>,
       },
+      
     ],
   },
 ]);

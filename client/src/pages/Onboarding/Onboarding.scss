@@ -2,7 +2,7 @@
     max-width: 500px;
     position: relative;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 0rem;
   
     background-color: #fff;
    
@@ -120,7 +120,8 @@
       }
     }
     .submit{
-        font-family: customfont;
+        font-family:'Courier New', Courier, monospace;
+       font-size: xx-large;
     }
   }
   select,

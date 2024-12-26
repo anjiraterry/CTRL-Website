@@ -1,27 +1,34 @@
 import React, { useState } from 'react';
+import {  useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { CountryDropdown, RegionDropdown } from 'react-country-region-selector'; // Country and region selector
+import { CountryDropdown, RegionDropdown } from 'react-country-region-selector'; 
+import { jwtDecode } from 'jwt-decode';
 import './Onboarding.scss';
 
 // Validation schema
 const validationSchema = Yup.object({
   birthday: Yup.date().required('Birthday is required'),
-  address:  Yup.string().required('Address is required'),
+  address: Yup.string().required('Address is required'),
   city: Yup.string().required('City is required'),
-  postalCode: Yup.string().required('Postal code is required'),
+  postalCode: Yup.string()
+    .matches(/^[0-9]{5}(-[0-9]{4})?$/, 'Enter a valid postal code') // Adjust regex based on postal code format
+    .required('Postal code is required'),
   country: Yup.string().required('Country is required'),
   state: Yup.string().required('State is required'),
-  gender: Yup.string().required('Gender is required'),
-  marketPref: Yup.boolean(),
+  gender: Yup.string()
+    .oneOf(['Male', 'Female', 'Others', 'Prefer not to say'], 'Invalid gender selection')
+    .required('Gender is required'),
+  marketPref: Yup.boolean().nullable(), // Allows unchecked state without error
 });
+
 
 const Onboarding = ({  }) => {
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedState, setSelectedState] = useState('');
   const [postalCodes, setPostalCodes] = useState([]);
-
+  const navigate = useNavigate()
  
 
 
@@ -29,15 +36,37 @@ const Onboarding = ({  }) => {
         'NG', 'US', 'CA', 'GB', 'FR', 'BJ', 'BF', 'CI', 'CM', 'GA', 'GH', 'GN', 'GW', 'LR', 'ML', 'MR', 'NE',  'SN', 'SL','TG', 
         ];
 
+     
+        const getUserIdFromToken = () => {
+          const token = localStorage.getItem('token');
+          if (!token) {
+            throw new Error('No token found');
+          }
+          try {
+            const decoded = jwtDecode(token);
+            return decoded.userId;
+          
+          } catch (err) {
+            throw new Error('Invalid or expired token');
+          }
+        };
+        
+        const handleSubmitting = (values, { setSubmitting }) => {
+          console.log('yes');
+          
+        };
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     setSubmitting(true);
- 
+    console.log('Submitting form:', values);
+   
 
     try {
-      const response = await axios.put(`http://localhost:8000/api/users/${userId}`, values);
+      const userId = getUserIdFromToken(); 
+      const response = await axios.put(`http://localhost:8000/api/auth/users/${userId}`, values);
       console.log('User info updated successfully:', response.data);
       alert('Your information has been updated successfully.');
       resetForm();
+      navigate('/dashboard');
     } catch (error) {
       console.error('Error updating user info:', error);
       alert('Failed to update information. Please try again later.');
@@ -76,11 +105,16 @@ const Onboarding = ({  }) => {
           gender: '',
           marketPref: false,
         }}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+        //validationSchema={validationSchema}
+        onSubmit={ handleSubmit}
       >
         {({ isSubmitting, values, setFieldValue }) => (
-          <Form className="form">
+          <Form  className="form">
+            <div className="form-group">
+    <label htmlFor="birthday">Birthday</label>
+    <Field name="birthday" type="date" />
+    <ErrorMessage name="birthday" component="div" className="error" />
+  </div>
           
             <div className="form-group">
               <label htmlFor="country">Country</label>
@@ -152,7 +186,7 @@ const Onboarding = ({  }) => {
               </label>
             </div>
 
-            <button className='submit' type="submit" disabled={isSubmitting} >
+            <button className='submit' type="submit" disabled={isSubmitting}  onClick={() => console.log("Submit button clicked")} >
               {isSubmitting ? 'Submitting...' : 'Submit'}
             </button>
           </Form>

@@ -62,28 +62,29 @@
   
   }
 }
-
- .prev{
-   position:absolute;
-  top:50%;
-  right: 0;
-  width: 50px;
-      height: 50px;
-      border: 1px solid #999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
+.prev{
+  position:absolute;
+ top:50%;
+z-index: 100;
+left: 0;
+ width: 50px;
+     height: 50px;
+     border: 1px solid #999;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     cursor: pointer;
       background:#fff;
 
- 
-  @media screen and (max-width: 768px) {
-    
-      display: none;
-  
+
+ @media screen and (max-width: 768px) {
    
-  }
-  }
+     display: none;
+ 
+  
+ }
+}
+ 
   .prev:hover{
       background-color: #A1D763;
     }
@@ -92,7 +93,7 @@
    position:absolute;
   top:50%;
 
-  left: 0;
+ right: 0;
   width: 50px;
       height: 50px;
       border: 1px solid #999;

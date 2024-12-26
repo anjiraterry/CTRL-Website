@@ -1,42 +1,47 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import List from "../../components/List/List";
-import useFetch from "../../hooks/useFetch";
-import "./SearchProducts.scss";
 import Card from "../../components/Card/Card";
-import Categories from "../../components/Categories/Categories";
-const itemsData = require("../../pages/data/items.js");
+import useProductFetch from "../../hooks/useProductFetch";
+import "./SearchProducts.scss";
 
 const SearchProducts = ({ searchTerm, isModalOpen, setIsModalOpen }) => {
   const location = useLocation();
-  const { name } = useParams();
   const { id = null, text = "" } = location.state || {};
-  const [object, setObject] = useState();
+  const { products, loading } = useProductFetch(); 
+  const [filteredResults, setFilteredResults] = useState([]);
+
 
   
-
-
-  const items = itemsData.item.flat();
-
-  const filteredResults = items.filter((item) =>
-  item.title.toLowerCase().includes(searchTerm)
-);
-
-const handleClick= () => {
-  window.scrollTo(0,0)
-}
  
+
+  // Filter the results based on the searchTerm
+  useEffect(() => {
+    if (searchTerm) {
+      const results = products.filter((item) =>
+        item.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredResults(results);
+    } else {
+      setFilteredResults(products); // Show all products if no searchTerm
+    }
+  }, [searchTerm, products]);
+
+  const handleClick = () => {
+    window.scrollTo(0, 0);
+  };
+
+  if (loading) {
+    return <div>Loading...</div>; // Display loading message while fetching
+  }
 
   return (
     <div className="products">
-    {isModalOpen && (
-      <div className="searchproduct">
-        <div className="close-cont">
-          <div className="close-modal" onClick={() => setIsModalOpen(false)}>
-            &times;
-          </div>
+      {isModalOpen && (
+        <div className="searchproduct">
+          <div className="close-cont">
+            <div className="close-modal" onClick={() => setIsModalOpen(false)}>
+              &times;
+            </div>
           </div>
           <div className="list">
             {filteredResults.length > 0 ? (
@@ -44,17 +49,16 @@ const handleClick= () => {
                 <Card
                   item={item}
                   key={item.id}
-                  handleClick={() => setIsModalOpen(false)} 
+                  handleClick={() => setIsModalOpen(false)}
                 />
               ))
             ) : (
               <p>No products found.</p>
             )}
           </div>
-        
-      </div>
-    )}
-  </div>
+        </div>
+      )}
+    </div>
   );
 };
 
